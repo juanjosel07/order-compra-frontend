@@ -4,10 +4,14 @@ import $ from "jquery";
 import { deleteOrder } from "@/services/OrderApi";
 import { toast } from "react-toastify";
 import type { Api } from "datatables.net";
+import { useNavigate } from "react-router-dom";
+import EditOrderData from "@/components/EditOrderData";
 
 export default function OrderListView() {
   const tableRef = useRef<HTMLTableElement>(null);
   const tableInstanceRef = useRef<Api | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     mountedDataTable();
@@ -43,7 +47,7 @@ export default function OrderListView() {
     const button = (e.target as HTMLElement).closest("button");
     const OrderId = button?.getAttribute("data-id") as string;
     if (button?.getAttribute("role") === "edit") {
-      console.log("editar orden ...", OrderId);
+      navigate(location.pathname + `?editOrder=${OrderId}`);
     } else {
       mutate(+OrderId);
     }
@@ -152,28 +156,31 @@ export default function OrderListView() {
   };
 
   return (
-    <div className="p-4 overflow-x-auto">
-      <table
-        ref={tableRef}
-        className=" min-w-full rounded-lg divide-y divide-gray-200 border border-none text-sm text-gray-700"
-      >
-        <thead className="bg-slate-200 text-sm ">
-          <tr>
-            <th className="px-4 py-2 text-left">Orden #</th>
-            <th className="px-4 py-2 text-left">Cliente</th>
-            <th className="px-4 py-2 text-left">Método de Pago</th>
-            <th className="px-4 py-2 text-left">Fecha de Orden</th>
-            <th className="px-4 py-2 text-left">Descuento</th>
-            <th className="px-4 py-2 text-left">Observaciones</th>
-            <th className="px-4 py-2 text-left">Total</th>
-            <th className="px-4 py-2 text-left">Acciones</th>
-          </tr>
-        </thead>
-        <tbody
-          className="bg-white divide-y divide-gray-200"
-          onClick={handleAction}
-        ></tbody>
-      </table>
-    </div>
+    <>
+      <div className="p-4 overflow-x-auto">
+        <table
+          ref={tableRef}
+          className=" min-w-full rounded-lg divide-y divide-gray-200 border border-none text-sm text-gray-700"
+        >
+          <thead className="bg-slate-200 text-sm ">
+            <tr>
+              <th className="px-4 py-2 text-left">Orden #</th>
+              <th className="px-4 py-2 text-left">Cliente</th>
+              <th className="px-4 py-2 text-left">Método de Pago</th>
+              <th className="px-4 py-2 text-left">Fecha de Orden</th>
+              <th className="px-4 py-2 text-left">Descuento</th>
+              <th className="px-4 py-2 text-left">Observaciones</th>
+              <th className="px-4 py-2 text-left">Total</th>
+              <th className="px-4 py-2 text-left">Acciones</th>
+            </tr>
+          </thead>
+          <tbody
+            className="bg-white divide-y divide-gray-200"
+            onClick={handleAction}
+          ></tbody>
+        </table>
+      </div>
+      <EditOrderData />
+    </>
   );
 }
