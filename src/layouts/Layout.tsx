@@ -1,7 +1,6 @@
 import Logo from "@/components/Logo";
 import { Link, Outlet } from "react-router-dom";
-// import { ToastContainer } from 'react-toastify'
-// import Logo from '../components/Logo'
+import { ToastContainer } from "react-toastify";
 
 export default function Layout() {
   return (
@@ -29,7 +28,7 @@ export default function Layout() {
         </p>
       </footer>
 
-      {/* <ToastContainer pauseOnFocusLoss={false} pauseOnHover={false} /> */}
+      <ToastContainer pauseOnFocusLoss={false} pauseOnHover={false} />
     </>
   );
 }
