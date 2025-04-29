@@ -30,7 +30,7 @@ Este es el frontend del módulo para creación y gestión de ordenes de compra, 
 1. Clona el repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/modulo-orden-compras-frontend.git
+git clone git@github.com:juanjosel07/order-compra-frontend.git
 cd modulo-orden-compras-frontend
 ```
 
