@@ -44,9 +44,10 @@ npm install
 
 ```
 
-3. Configurar variables de entorno, coloca tu url local:
+3. Configurar variables de entorno, coloca tu url local, crea el arcchivo .env.local y pega:
 
 ```bash
+
 VITE_API_URL = http://localhost:8000/api
 
 ```
