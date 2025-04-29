@@ -32,8 +32,6 @@ export default function EditOrderData() {
     return <Navigate to="/404" />;
   }
 
-  console.log(data);
-
   if (!data) return;
   return load && <EditOrderModal orderId={OrderId} />;
 }
