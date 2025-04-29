@@ -1,17 +1,29 @@
-import { useEffect, useRef } from "react";
+import { use, useEffect, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import $ from "jquery";
 import { deleteOrder } from "@/services/OrderApi";
 import { toast } from "react-toastify";
 import type { Api } from "datatables.net";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EditOrderData from "@/components/EditOrderData";
+import { useOrderStore } from "@/store/orderStore";
+import { formatNumber } from "../helpers";
 
 export default function OrderListView() {
+  const setReloadTable = useOrderStore((state) => state.setReloadTable);
+
   const tableRef = useRef<HTMLTableElement>(null);
   const tableInstanceRef = useRef<Api | null>(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setReloadTable(() => {
+      if (tableInstanceRef.current) {
+        tableInstanceRef.current.ajax.reload();
+      }
+    });
+  }, []);
 
   useEffect(() => {
     mountedDataTable();
@@ -118,10 +130,12 @@ export default function OrderListView() {
           searchable: true,
         },
         {
-          data: "total",
           name: "total",
           orderable: true,
           searchable: true,
+          render: (data, type, row, meta) => {
+            return `$ ${formatNumber(row.total)}`;
+          },
         },
         {
           name: "actions",
@@ -157,7 +171,15 @@ export default function OrderListView() {
 
   return (
     <>
-      <div className="p-4 overflow-x-auto">
+      <div className="p-4 overflow-x-auto flex flex-col gap-10">
+        <nav className="self-end ">
+          <Link
+            to="/orders/new"
+            className="font-bold cursor-pointer bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+          >
+            Crear ODC
+          </Link>
+        </nav>
         <table
           ref={tableRef}
           className=" min-w-full rounded-lg divide-y divide-gray-200 border border-none text-sm text-gray-700"

@@ -11,7 +11,7 @@ import ProductItem from "./ProductItem";
 import ErrorMessage from "./ErrorMessage";
 import { useOrderStore } from "@/store/orderStore";
 import AddProductoModal from "./AddProductoModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ProductCardT = {
   errors: FieldErrors<OrderFormDataT>;
@@ -25,9 +25,17 @@ export default function ProductCard({
   setValue,
 }: ProductCardT) {
   const order = useOrderStore((state) => state.currentOrder);
-  const additemToOrder = useOrderStore((state) => state.additemToOrder);
 
   const [openModal, setOpenModal] = useState(false);
+
+  useEffect(() => {
+    if (order) {
+      setValue("products", order.order_items, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  }, [order]);
 
   const handleAddProduct = () => {
     setOpenModal(true);
@@ -67,6 +75,7 @@ export default function ProductCard({
         )}
 
         <button
+          type="button"
           onClick={handleAddProduct}
           className="mt-4 cursor-pointer text-neutral-600/60 font-bold text-xs hover:text-neutral-600 transition-colors duration-200 flex items-center gap-3"
         >

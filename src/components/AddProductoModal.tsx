@@ -209,7 +209,6 @@ export default function AddProductoModal({
                     </div>
                   </>
                   <input
-                    //stop propagation para evitar que se cierre el modal al hacer click fuera del formulario
                     onClick={(event) => event.stopPropagation()}
                     type="submit"
                     value="Agregar Producto"

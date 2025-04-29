@@ -3,13 +3,19 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import OrderForm from "./OrderForm";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useOrderStore } from "@/store/orderStore";
+import { updateOrder } from "@/services/OrderApi";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export default function EditOrderModal({ orderId }: { orderId: number }) {
   const navigate = useNavigate();
 
   const order = useOrderStore((state) => state.currentOrder);
+  const total = useOrderStore((state) => state.total);
+  const setTotal = useOrderStore((state) => state.setTotal);
+  const reloadTable = useOrderStore((state) => state.reloadTable);
 
   const {
     register,
@@ -25,16 +31,65 @@ export default function EditOrderModal({ orderId }: { orderId: number }) {
     },
   });
 
-  const handleEditOrder = (data) => {};
+  const { mutate } = useMutation({
+    mutationFn: updateOrder,
+    onSuccess: (data) => {
+      if (data) toast.success(data.message);
+      reset();
+      reloadTable();
+      navigate(location.pathname, { replace: true });
+    },
+
+    onError: (error) => {
+      if (typeof error === "object") {
+        Object.values(error).forEach((errorMessages) => {
+          errorMessages.forEach((message: string) => {
+            toast.error(message);
+          });
+        });
+      } else {
+        toast.error(error);
+      }
+    },
+  });
+
+  const handlecloseModal = () => {
+    navigate(location.pathname, { replace: true });
+    setTotal("0");
+  };
+
+  const handleEditOrder = (data: OrderFormDataT) => {
+    if (order) {
+      const { id, order_items, ...orderSend } = order;
+
+      const orderItems = order_items.map((item) => {
+        const { product_name, order_id, ...restOrderItem } = item;
+        return restOrderItem;
+      });
+
+      const newOrder = {
+        ...orderSend,
+        orderItems: orderItems,
+      };
+
+      const dataSend = {
+        formData: {
+          ...newOrder,
+          total: total,
+          order_date: data.billingDate,
+          payment_method: data.paymentMethod,
+        },
+        orderId,
+      };
+
+      mutate(dataSend);
+    }
+  };
 
   return (
     <>
       <Transition appear show={true} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => navigate(location.pathname, { replace: true })}
-        >
+        <Dialog as="div" className="relative z-10" onClose={handlecloseModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

@@ -1,8 +1,8 @@
-import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { OrderFormDataT } from "../types";
 import ErrorMessage from "./ErrorMessage";
 import { useOrderStore } from "@/store/orderStore";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 
 type BillingInfoT = {
   errors: FieldErrors<OrderFormDataT>;
@@ -13,7 +13,13 @@ export default function BillingInfo({ register, errors }: BillingInfoT) {
   const order = useOrderStore((state) => state.currentOrder);
   const setCurrentOrder = useOrderStore((state) => state.setCurrentOrder);
 
-  const [observations, setObservations] = useState(order?.observations || "");
+  const [observations, setObservations] = useState(order?.observations);
+
+  useEffect(() => {
+    if (order) {
+      setObservations(order.observations);
+    }
+  }, [order]);
 
   const handleChangeObservations = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -33,7 +39,7 @@ export default function BillingInfo({ register, errors }: BillingInfoT) {
         <textarea
           className=" h-full rounded-lg p-3 text-neutral-500/80 text-sm italic font-medium bg-white"
           placeholder="Agregar Observaciones ..."
-          value={observations}
+          value={observations ?? ""}
           onChange={handleChangeObservations}
         ></textarea>
       </div>

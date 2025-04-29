@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 
 export default function CostSummay() {
   const order = useOrderStore((state) => state.currentOrder);
+  const total = useOrderStore((state) => state.total);
+
+  const setTotal = useOrderStore((state) => state.setTotal);
 
   const setCurrentOrder = useOrderStore((state) => state.setCurrentOrder);
   const [discount, setDiscount] = useState(order?.discount);
@@ -10,7 +13,7 @@ export default function CostSummay() {
   const [totalGconIva, setTotalGconIva] = useState(0);
   const [totalGsinIva, setTotalGsinIva] = useState(0);
   const [ivaTotal, setIvaTtotal] = useState(0);
-  const [totalODC, setTotalODC] = useState(0);
+  // const [totalODC, setTotalODC] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value === "" ? "" : e.target.value;
@@ -57,7 +60,7 @@ export default function CostSummay() {
 
     const descuentoValue = Number(order.discount) || 0;
     const valorODC = (totalOrden || 0) - descuentoValue;
-    setTotalODC(valorODC);
+    setTotal(valorODC + "");
   }, [order]);
 
   return (
@@ -121,7 +124,7 @@ export default function CostSummay() {
           type="text"
           className="col-span-2 text-center border-purple-500 border-2 bg-white rounded-lg px-2 py-3 font-bold text-neutral-500/80 text-sm"
           readOnly
-          value={totalODC}
+          value={total}
         />
       </div>
     </>
