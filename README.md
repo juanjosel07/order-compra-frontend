@@ -1,54 +1,98 @@
-# React + TypeScript + Vite
+# 🛒 Módulo Orden de Compras - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es el frontend del módulo para creación y gestión de ordenes de compra, Desarrollado con React, este proyecto premite:
 
-Currently, two official plugins are available:
+- Crear nuevas órdenes con validaciónes desde el frontend
+- Visualizar por medio de un datatable el listado de ordenes de compra existentes, y descargarlo en excel
+- Desde la Tabla gestionar la orden, editarla y ver sus detalles y eliminarla.
+- Filtrar y buscar órdenes existentes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Requisitos Previos
 
-## Expanding the ESLint configuration
+- Node.js v16+
+- npm v8+ o pnpm
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Tecnologías utilizadas
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- ⚛️ React (Vite)
+- 💨 TailwindCSS
+- 🏪 Zustand (gestión de estado)
+- 📝 React Hook Form (formularios y validación)
+- ⚛️ React-Router-dom
+- 🧮 TypeScript
+- 🎨 react-toastify- sweetalert /UI (componentes)
+- 🔗 Axios (HTTP)
+- 🏪Zod (declaracion y validacion de schemas en las respuestas axios)
+- DataTables(datatable.net)
+
+## 📦 Instalación
+
+1. Clona el repositorio:
+
+```bash
+git clone https://github.com/tu-usuario/modulo-orden-compras-frontend.git
+cd modulo-orden-compras-frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Instalar dependencias:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+pnpm install
+# o
+npm install
+
 ```
+
+3. Configurar variables de entorno, coloca tu url local:
+
+```bash
+VITE_API_URL = http://localhost:8000/api
+
+```
+
+4. Iniciar la aplicación:
+
+```bash
+pnpm run dev
+# o
+npm run dev
+
+
+```
+
+---
+
+### Explicación de la estructura:
+
+- **`public/`**: Contiene archivos estáticos como imagenes.
+- **`src/`**: Contiene todo el código fuente de la aplicación.
+  - **`components/`**: Componentes de React que se reutilizan en la aplicación.
+  - **`layouts/`**: componente de react que se va a reutilizar en las vistas que se importe.
+  - **`views/`**: Archivos que contienen las vistas del proyecto.
+  - **`store/`**: Archivos que gestionan el estado global del proyecto (en este caso, se usa Zustand).
+  - **`services/`**: Archivo con las funciones para hacer las peticiones con axios al backend, validar respuesta y errores.
+  - **`/types`**: Archivos que contienen los tipos para usar en el proyecto.
+  - **`helpers/`**: Archivos que contienen código que se reutiliza en la aplicación como formatear, etc..
+  - **`lib/`**: Contiene el archivo de configuracion de axios de la aplicacion como el baseURL que vienen de las variables de entorno
+  - **`index.css`**: archivo de estilos de la aplicación, y de las importación de tailwind
+  - **`main.tsx`**: Punto de entrada donde se renderiza el componente principal.
+- **`.gitignore`**: Archivos que no deben ser versionados por git (por ejemplo, `node_modules`).
+- **`package.json`**: Contiene las dependencias y los scripts del proyecto.
+- **`tailwind.config.js`**: Configuración de TailwindCSS.
+- **`tsconfig.json`**: Configuración de TypeScript para el proyecto.
+- **`README.md`**: Este archivo donde se documenta el proyecto.
+
+---
+
+# 🌐 Demo Online
+
+Próximamente...
+
+# Autor
+
+- Juan Jose Leon
+
+## 📄 Licencia
+
+Este proyecto **no tiene licencia definida**. Puedes Clonarlo y estudiarlo.
